@@ -1,0 +1,101 @@
+# November 16, 2014 copied from 081114 version written for Core 2 Duo @ 2 Ghz
+# and modified for i-7 Quad Core 3630 QM @ 3.4 Ghz with 8 cores @1920x1080 again.
+#  Adapt for grey-scale snow-leopard wallpaper.
+#  Adapt for USB thumb-drive with Sparky Linux.
+
+# August 12, 2014 from ubuntuforum / cafe /  satshow2
+# http://ubuntuforums.org/showthread.php?t=281865&page=2287&p=13096925#post13096925
+
+# September 10, 2016 Now on Ubuntu 16.04, Kernel 4.7.3 and after many glitches such
+# as suspend/resume, thin fonts in Nautilus, constant Intel Turbo Boost (more heat)
+# and sound going to Built-In audio instead of TV repairs, the heat in thermal zones
+# 0 and 1 which conky uses are wrong after resume so use thermal zone 2 instead.
+
+# February 25, 2017 add Sunrise and Sunset.
+background no
+use_xft yes
+xftfont ubuntu:size=10.5
+xftalpha 0.1
+update_interval 1.5
+total_run_times 0
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+
+minimum_size 200
+maximum_width 400
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+default_color lightgray
+default_shade_color red
+default_outline_color green
+alignment top_right
+gap_x 0
+gap_y 40
+
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale yes
+use_spacer none
+
+#draw_shades yes
+# off-white
+default_color ECEAE4
+# blue
+color1 1EB5FF
+# light blue
+color2 30DDFB
+# dark blue
+color3 0090ff
+# lime
+color4 98FF76
+default_shade_color 000000
+
+TEXT
+${color}Today is:${color green}$alignr${time %A,}$alignr ${time %e %B %G}
+#${color}Distribution:${color green}$alignr ${pre_exec cat /etc/issue.net} $machine
+${color}Kernel:$alignr${color green} $kernel
+${color orange}${voffset 2}${hr 1}
+${color2}${voffset 5}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}: ${color1}@  ${color green}${freq} MHz   
+${color}${goto 13}CPU 1 ${goto 81}${color green}${cpu cpu1}% ${goto 131}${color3}${cpubar cpu1 10}
+${color}${goto 13}CPU 2 ${goto 81}${color green}${cpu cpu2}% ${goto 131}${color3}${cpubar cpu2 10}
+${color}${goto 13}CPU 3 ${goto 81}${color green}${cpu cpu3}% ${goto 131}${color3}${cpubar cpu3 10}
+${color}${goto 13}CPU 4 ${goto 81}${color green}${cpu cpu4}% ${goto 131}${color3}${cpubar cpu4 10}
+
+${color1}All CPU ${color green}${cpu}% ${goto 131}${color1}Temp: ${color green}${execi 30 cat /sys/class/thermal/thermal_zone0/temp | awk '{print substr($0,0,3)}' }°C ${goto 250}${color1}Up: ${color green}$uptime
+${color green}$running_processes ${color1}running of ${color green}$processes ${color1}loaded processes.
+${color orange}${voffset 2}${hr 1}
+${color1}${voffset 5}Process Name: ${goto 215}PID ${goto 265}CPU% ${goto 337}Mem%
+${color}${goto 13}${top name 1} ${goto 210}${top pid 1} ${goto 275}${color green}${top cpu 1} ${goto 350}${top mem 1}
+${color}${goto 13}${top name 2} ${goto 210}${top pid 2} ${goto 275}${color green}${top cpu 2} ${goto 350}${top mem 2}
+${color}${goto 13}${top name 3} ${goto 210}${top pid 3} ${goto 275}${color green}${top cpu 3} ${goto 350}${top mem 3}
+${color}${goto 13}${top name 4} ${goto 210}${top pid 4} ${goto 275}${color green}${top cpu 4} ${goto 350}${top mem 4}
+${color}${goto 13}${top name 5} ${goto 210}${top pid 5} ${goto 275}${color green}${top cpu 5} ${goto 350}${top mem 5}
+${color}${goto 13}${top name 6} ${goto 210}${top pid 6} ${goto 275}${color green}${top cpu 6} ${goto 350}${top mem 6}
+${color}${goto 13}${top name 7} ${goto 210}${top pid 7} ${goto 275}${color green}${top cpu 7} ${goto 350}${top mem 7}
+${color}${goto 13}${top name 8} ${goto 210}${top pid 8} ${goto 275}${color green}${top cpu 8} ${goto 350}${top mem 8}
+${color}${goto 13}${top name 9} ${goto 210}${top pid 9} ${goto 275}${color green}${top cpu 9} ${goto 350}${top mem 9}
+${color orange}${voffset 2}${hr 1}
+${color}Free RAM: $memeasyfree	
+${color}Memory:${goto 148}${color green}$mem / $memmax $alignr${color green}${memperc /}%
+$membar
+${color}Swap:${goto 148}${color green}$swap / $swapmax $alignr${color green}${swapperc /}%
+${swapbar}
+${color}Linux:${goto 148}${color green}${fs_used /} / ${fs_size /} $alignr${color green}${fs_used_perc /}%
+${fs_bar /}
+${color orange}${voffset 2}${hr 1}
+${color1}Network real-time monitoring
+${color}Down: ${color green}${downspeed wlan0}/s ${color}${goto 220}Up: ${color green}${upspeed wlan0}/s
+${downspeedgraph wlan0 25,190 000000 ff0000} ${alignr}${upspeedgraph wlan0
+25,190 000000 00ff00}$color
+Total: ${color green}${totaldown wlan0} $color${alignr}Total: ${color green}${totalup wlan0}
+${color}Down: ${color green}${downspeed eth0}/s ${color}${goto 220}Up: ${color green}${upspeed eth0}/s
+${downspeedgraph eth0 25,190 000000 ff0000} ${alignr}${upspeedgraph eth0
+25,190 000000 00ff00}$color
+Total: ${color green}${totaldown eth0} $color${alignr}Total: ${color green}${totalup eth0}
